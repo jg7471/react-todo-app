@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../scss/TodoInput.scss';
+import '../../scss/TodoInput.scss';
 import { MdAdd } from 'react-icons/md';
 import cn from 'classnames';
 

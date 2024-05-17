@@ -1,5 +1,5 @@
 import React from 'react';
-import '../scss/TodoHeader.scss';
+import '../../scss/TodoHeader.scss';
 
 const TodoHeader = ({ count }) => {
   const today = new Date();

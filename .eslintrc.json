@@ -16,6 +16,7 @@
       "react"
   ],
   "rules": {
+    //규칙 설정
       "prettier/prettier": ["error", { "singleQuote": true, "semi": true, "endOfLine": "auto" }],
       "space-before-function-paren": ["error", "never"],
       "require-jsdoc": "off",
@@ -30,7 +31,8 @@
       "prefer-const": "off",
       "react/jsx-key": "off",
       "indent": "off",
-      "max-len": "off"
+      "max-len": "off",
+      "no-useless-escape":"off"
   
   }
 }
