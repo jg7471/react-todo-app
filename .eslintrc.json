@@ -18,7 +18,7 @@
   "rules": {
     //규칙 설정
       "prettier/prettier": ["error", { "singleQuote": true, "semi": true, "endOfLine": "auto" }],
-      "space-before-function-paren": ["error", "never"],
+      "space-before-function-paren": "off",
       "require-jsdoc": "off",
       "padded-blocks": "off",
       "linebreak-style": "off",
@@ -33,6 +33,7 @@
       "indent": "off",
       "max-len": "off",
       "no-useless-escape":"off"
-  
+        
+
   }
 }
