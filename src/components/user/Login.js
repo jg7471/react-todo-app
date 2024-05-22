@@ -1,18 +1,33 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { API_BASE_URL as BASE, USER } from '../../config/host-config';
 import AuthContext from '../../uitls/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import CustomSnackBar from '../layout/CustomSnackBar';
+import { KAKAO_AUTH_URL } from '../../config/kakao-config';
 
 const Login = () => {
-  const REQUST_URL = BASE + USER + '/signin';
+  const REQUEST_URL = BASE + USER + '/signin';
 
-  const { onLogin } = useContext(AuthContext); //AuthContext에서 onLogin을 꺼낸다@@@
+  const { onLogin, isLoggedIn } = useContext(AuthContext); //AuthContext에서 onLogin을 꺼낸다@@
+  const [open, setOpen] = useState(false);
 
   const redirection = useNavigate(); //네비 선언
 
-  //서버에 비동기 로그인 요청(AJAX 요청(JSON))
+  useEffect(() => {
+    if (isLoggedIn) {
+      setOpen(true); //스낵바 오픈
+      //일정 시간 뒤 Todo 화면으로 redirect
+      setTimeout(() => {
+        redirection('/');
+      }, 2785);
+    }
+  }, [isLoggedIn]);
+
+  // 서버에 비동기 로그인 요청(AJAX 요청)
+  // 함수 앞에 async를 붙이면 해당 함수는 프로미스 객체를 바로 리턴합니다.
   const fetchLogin = async () => {
+    // 이메일, 비밀번호 입력 태그 취득하기
     const $email = document.getElementById('email');
     const $password = document.getElementById('password');
 
@@ -23,7 +38,7 @@ const Login = () => {
     //await는 프로미스 객체가 처리될 때까지 기다림
     //프로미스 객체의 반환값을 바로 활용할 수 있도록 도와줌
     //then()을 활용하는 것보다 가독성이 좋고, 쓰기도 좋다
-    const res = await fetch(REQUST_URL, {
+    const res = await fetch(REQUEST_URL, {
       //1. res 처리 될 때까지 대기
       method: 'POST',
       headers: {
@@ -45,17 +60,15 @@ const Login = () => {
 
     //서버에서 전달된 json을 디스트럭쳐링해서 변수에 저장
     const { token, userName, email, role } = await res.json();
-    
+
     //context API를 사용하여 로그인 상태를 업데이트
     onLogin(token, userName, role);
 
     //홈으로 리다이렉트
     redirection('/');
 
-
-
     /* 방법 1
-    fetch(REQUST_URL, {
+    fetch(REQUEST_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,48 +102,72 @@ const Login = () => {
     fetchLogin();
   };
   return (
-    <Container component="main" maxWidth="xs" style={{ margin: '200px auto' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography component="h1" variant="h5">
-            로그인
-          </Typography>
-        </Grid>
-      </Grid>
+    <>
+      {!isLoggedIn && (
+        <Container
+          component="main"
+          maxWidth="xs"
+          style={{ margin: '200px auto' }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography component="h1" variant="h5">
+                로그인
+              </Typography>
+            </Grid>
+          </Grid>
 
-      <form noValidate onSubmit={loginHandler}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="email address"
-              name="email"
-              autoComplete="email"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="on your password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" fullWidth variant="contained" color="primary">
-              로그인
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Container>
+          <form noValidate onSubmit={loginHandler}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="email address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="on your password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                >
+                  로그인
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                {/* 리액트에서 a태그 잘 안쓰는데 카카오 로그인 특별 사용 */}
+                <a href="KAKAO_AUTH_URL">
+                  <img
+                    style={{ width: '100%' }}
+                    alt="kakaobtn"
+                    src={require('../../assets/img/kakao_login_medium_wide.png')}
+                  />
+                </a>
+              </Grid>
+            </Grid>
+          </form>
+        </Container>
+      )}
+      <CustomSnackBar open={open} />
+    </>
   );
 };
 

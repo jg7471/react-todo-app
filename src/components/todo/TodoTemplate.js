@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoHeader from './TodoHeader';
 import TodoMain from './TodoMain';
 import TodoInput from './TodoInput';
@@ -22,7 +22,7 @@ const TodoTemplate = () => {
   const [loading, setLoading] = useState(true);
 
   //로그인 인증 토큰 얻어오기
-  const token = localStorage.getItem('ACCESS_TOKEN');
+  const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
 
   //fetch 요청을 보낼 때 사용할 요청 헤더 설정
   const requestHeader = {
@@ -51,8 +51,13 @@ const TodoTemplate = () => {
       body: JSON.stringify(newTodo),
     });
 
-    const json = await res.json();
-    setTodos(json.todos); //배열에 넣기
+    if (res.status === 200) {
+      const json = await res.json();
+      setTodos(json.todos); //배열에 넣기
+    } else if (res.status === 403) {
+      const text = await res.text();
+      alert(text);
+    }
   };
   /*
     fetch(API_BASE_URL, {
@@ -116,6 +121,14 @@ const TodoTemplate = () => {
       method: 'PUT',
       headers: requestHeader,
     });
+    if (res.status === 400) {
+      alert('이미 프리미엄 회원입니다.');
+    } else if (res.status === 200) {
+      const json = await res.json();
+      localStorage.setItem('ACCESS_TOKEN', json.token);
+      localStorage.setItem('USER_ROLE', json.role);
+      setToken(json.token);
+    }
   };
 
   useEffect(() => {
@@ -130,7 +143,7 @@ const TodoTemplate = () => {
           alert('로그인이 필요한 서비스 입니다.');
           redirection('/login');
         } else {
-          return null;
+          alert('관리자에게 문의하세요');
         }
       })
       .then((json) => {
@@ -158,7 +171,7 @@ const TodoTemplate = () => {
   //로딩 중일 때 보여줄 컴포넌트
   const loadingPage = (
     <div className="loading">
-      <Spinner>Loading...</Spinner>
+      <Spinner color="danger">loading...</Spinner>
       {/* Spinner 뱅글뱅글 도는 feat.리액트 제공 */}
     </div>
   );
