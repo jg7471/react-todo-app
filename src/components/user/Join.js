@@ -281,7 +281,8 @@ const Join = () => {
               onClick={() => $fileTag.current.click()} //클릭효과 2
             >
               <img
-                src={imgFile || require('../../assets/img/image-add.png')} //@@
+                src={imgFile || require('../../assets/img/image-add.png')}
+                // || 연산자는 첫 번째 피연산자가 "truthy" 값이면 그 값을 반환하고, 그렇지 않으면 두 번째 피연산자를 반환
                 alt="profile"
               />
             </div>

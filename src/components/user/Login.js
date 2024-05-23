@@ -1,7 +1,7 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { API_BASE_URL as BASE, USER } from '../../config/host-config';
-import AuthContext from '../../uitls/AuthContext';
+import AuthContext from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../layout/CustomSnackBar';
 import { KAKAO_AUTH_URL } from '../../config/kakao-config';
@@ -41,9 +41,7 @@ const Login = () => {
     const res = await fetch(REQUEST_URL, {
       //1. res 처리 될 때까지 대기
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         //JSON 변환 후 body 객체에 담기
         email: $email.value,
@@ -153,8 +151,7 @@ const Login = () => {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                {/* 리액트에서 a태그 잘 안쓰는데 카카오 로그인 특별 사용 */}
-                <a href="KAKAO_AUTH_URL">
+                <a href={KAKAO_AUTH_URL}>
                   <img
                     style={{ width: '100%' }}
                     alt="kakaobtn"

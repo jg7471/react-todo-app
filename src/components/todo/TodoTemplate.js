@@ -54,6 +54,10 @@ const TodoTemplate = () => {
     if (res.status === 200) {
       const json = await res.json();
       setTodos(json.todos); //배열에 넣기
+    } else if (res.status === 401) {
+      const message = await res.text();
+      alert(message);
+      redirection('/');
     } else if (res.status === 403) {
       const text = await res.text();
       alert(text);

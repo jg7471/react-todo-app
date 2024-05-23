@@ -6,9 +6,8 @@
 */
 
 //이 클래스는 노출되어도 됨
-
 const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URL;
 
 //문서 그대로 주소에 묻히기
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`;

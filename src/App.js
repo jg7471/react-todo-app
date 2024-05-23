@@ -5,7 +5,7 @@ import Header from './components/layout/Header';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/user/Login';
 import Join from './components/user/Join';
-import { AuthContextProvider } from './uitls/AuthContext';
+import { AuthContextProvider } from './utils/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import KakaoLoginHandler from './components/user/KakaoLoginHandler';
 
@@ -21,7 +21,7 @@ function App() {
             <Route path="/" element={<TodoTemplate />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
-            <Route path="/ouath/kakao" element={KakaoLoginHandler} />
+            <Route path="/oauth/kakao" element={<KakaoLoginHandler />} />
           </Routes>
         </div>
 
