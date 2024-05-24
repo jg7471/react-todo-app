@@ -5,6 +5,7 @@ import AuthContext from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../layout/CustomSnackBar';
 import { KAKAO_AUTH_URL } from '../../config/kakao-config';
+import axios from 'axios';
 
 const Login = () => {
   const REQUEST_URL = BASE + USER + '/signin';
@@ -38,7 +39,15 @@ const Login = () => {
     //await는 프로미스 객체가 처리될 때까지 기다림
     //프로미스 객체의 반환값을 바로 활용할 수 있도록 도와줌
     //then()을 활용하는 것보다 가독성이 좋고, 쓰기도 좋다
-    const res = await fetch(REQUEST_URL, {
+    const res = await axios.post(REQUEST_URL, {
+      //1 매개값 url, 2 전송할 데이터
+      email: $email.value,
+      password: $password.value,
+    });
+
+    /**
+     * 
+     * const res = await fetch(REQUEST_URL, {
       //1. res 처리 될 때까지 대기
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -48,6 +57,7 @@ const Login = () => {
         password: $password.value,
       }),
     });
+     */
 
     if (res.status === 400) {
       const text = await res.text(); //await 기다려! 순서 보장(기다림)
@@ -57,7 +67,7 @@ const Login = () => {
     }
 
     //서버에서 전달된 json을 디스트럭쳐링해서 변수에 저장
-    const { token, userName, email, role } = await res.json();
+    const { token, userName, role } = await res.data; //@@@res.json
 
     //context API를 사용하여 로그인 상태를 업데이트
     onLogin(token, userName, role);
