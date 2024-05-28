@@ -16,16 +16,15 @@ export const AuthContextProvider = (props) => {
 
   // 로그인 핸들러
   const loginHandler = (token, userName, role) => {
-    localStorage.setItem('REFRESH_TOKEN', token.refresh_token);
-
     // json에 담긴 인증 정보를 클라이언트에 보관
     // 1. 로컬 스토리지 - 브라우저가 종료되어도 유지됨.
     // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
     localStorage.setItem('ACCESS_TOKEN', token.access_token);
+    localStorage.setItem('REFRESH_TOKEN', token.refresh_token);
     localStorage.setItem('LOGIN_USERNAME', userName);
     localStorage.setItem('USER_ROLE', role);
-    setIsLoggedIn(true); //상태변수 변경
-    setUserName(userName); //@@@ 저장?
+    setIsLoggedIn(true);
+    setUserName(userName);
   };
 
   // 로그아웃 핸들러
@@ -50,7 +49,6 @@ export const AuthContextProvider = (props) => {
         userName,
         onLogout: logoutHandler,
         onLogin: loginHandler,
-        //{기본 {객체}}
       }}
     >
       {props.children}

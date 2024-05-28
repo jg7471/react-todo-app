@@ -43,18 +43,26 @@ axiosInstance.interceptors.response.use(
   //{ return } 생략
   async (error) => {
     console.log('response Interceptor가 동작함, 응답 에러 발생');
-    //원본 요청의 정보를 기억해 놓자 : 새 토큰 받아서 다시 보낼 꺼니까
-    const originalRequest = error.config; //인스턴스가 갖고 있는 설정 내용
-    const redirection = useNavigate();
 
-    //응답상태 401? -> 토큰에 문제 있음
-    //응답에 에러 발생시 실행할 두번째 함수
+    // 응답이 실패했는데, 토큰 재발급이 필요하지 않은 상황 (로그인을 하지 않고 요청)
+    // 밑에 로직이 실행되지 않게끔 return.
+    if (error.response.data.message === 'INVALID_AUTH') {
+      console.log('아예 로그인을 안해서 401이 발생!');
+      return Promise.reject(error);
+    }
+
+    // 원본 요청의 정보를 기억을 해 놓자 -> 새 토큰 받아서 다시 보낼 꺼니까.
+    const originalRequest = error.config;
+
+    // 응답에 에러가 발생하면 실행할 두번째 함수.
     if (error.response.status === 401 && !originalRequest._retry) {
-      //_retry 속성은 사용자 정의 속성. 최초 요청에서는 존재하지 않음
-      //만약 재요청 시에도 문제가 발생했다면(refresh 만료 등), 더 이상 똑같은 요청을 반복해서 무한 루프에 빠지지 않도록
-      //막아주는 역할을 함 : 클라이언트 단에서 막음
-      originalRequest._rerty = true;
+      console.log('응답 상태 401 확인! 토큰 재발급 요청!');
+      // _retry 속성은 사용자 정의 속성입니다. 최초 요청에서는 존재하지 않습니다.
+      // 만약 재요청 시에도 문제가 발생했다면 (refresh 만료 등), 더 이상 똑같은 요청을 반복해서 무한 루프에 빠지지 않도록
+      // 막아주는 역할을 합니다.
+      originalRequest._retry = true;
 
+      // 응답상태 401? -> 토큰에 문제 있구나!
       try {
         const refreshToken = localStorage.getItem('REFRESH_TOKEN');
         const res = await axios.post(`${USER_URL}/refresh`, { refreshToken }); //@@@
@@ -77,7 +85,6 @@ axiosInstance.interceptors.response.use(
         //Refresh token이 만료된 경우
         localStorage.removeItem('ACCESS_TOKEN');
         localStorage.removeItem('REFRESH_TOKEN');
-        redirection('/login');
       }
     }
     return Promise.reject(error);

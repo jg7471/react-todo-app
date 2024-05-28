@@ -74,14 +74,8 @@ const TodoTemplate = () => {
       //일괄처리(try/catch 사용x)
       () => axiosInstance.delete(`${API_BASE_URL}/${id}`), //requestFunc
       (data) => setTodos(data.todos), //onSuccess
-      (error) => {
-        //onError (리프레시 토큰도 이상있는 상태)
-        if (error.response && error.response === 401) {
-          alert('로그인 시간만료 되었습니다. 다시 로그인 해 주세요');
-          onLogout();
-          redirection('/login');
-        }
-      },
+      onLogout,
+      redirection,
     );
   };
 
@@ -91,14 +85,8 @@ const TodoTemplate = () => {
       //일괄처리(try/catch 사용x)
       () => axiosInstance.patch(API_BASE_URL, { id, done: !done }), //requestFunc
       (data) => setTodos(data.todos), //onSuccess
-      (error) => {
-        //onError (리프레시 토큰도 이상있는 상태)
-        if (error.response && error.response === 401) {
-          alert('로그인 시간만료 되었습니다. 다시 로그인 해 주세요');
-          onLogout();
-          redirection('/login');
-        }
-      },
+      onLogout,
+      redirection,
     );
   };
 
@@ -106,61 +94,46 @@ const TodoTemplate = () => {
   //체크가 안 된 할 일의 개수를 카운트 하기
   const countRestTodo = () => todos.filter((todo) => !todo.done).length;
 
-  //비동기 방식 등급 승격 함수
+  // 비동기 방식 등급 승격 함수
   const fetchPromote = async () => {
     handleRequest(
-      //일괄처리(try/catch 사용x)
-      () => axiosInstance.put(`${API_USER_URL}/promote`), //데이터 전달x
+      () => axiosInstance.put(`${API_USER_URL}/promote`),
       (data) => {
         localStorage.setItem('ACCESS_TOKEN', data.token);
         localStorage.setItem('USER_ROLE', data.role);
         setToken(data.token);
-      }, //onSuccess
-      (error) => {
-        //onError (리프레시 토큰도 이상있는 상태)
-        if (error.response && error.response === 401) {
-          alert('로그인 시간만료 되었습니다. 다시 로그인 해 주세요');
-          onLogout();
-          redirection('/login');
-        } else if (error.response === 400) {
-          alert('이미 프리미엄 회원입니다.');
-        }
       },
+      onLogout,
+      redirection,
     );
   };
 
   useEffect(() => {
-    //페이지가 처음 렌더링 됨과 동시에 할 일 목록을 서버에 요청해서 뿌려주기
-    const fetchTodos = async () => {
-      try {
-        const res = await axiosInstance.get(API_BASE_URL);
-        if (res.status === 200) setTodos(res.data.todos);
-      } catch (error) {
-        //리프레시 토큰
-        console.log('error: ', error);
-      } finally {
+    // 페이지가 처음 렌더링 됨과 동시에 할 일 목록을 서버에 요청해서 뿌려 주겠습니다.
+    handleRequest(
+      () => axiosInstance.get(API_BASE_URL),
+      (data) => {
+        setTodos(data.todos);
         setLoading(false);
-      }
-    };
-    fetchTodos();
-  }, []); //[]배열 비우기
+      },
+      onLogout,
+      redirection,
+    );
+  }, []);
 
-  //로딩이 끝난 후에 보여줄 컴포넌트
+  // 로딩이 끝난 후 보여줄 컴포넌트
   const loadEndedPage = (
     <div className="TodoTemplate">
       <TodoHeader count={countRestTodo} promote={fetchPromote} />
       <TodoMain todoList={todos} remove={removeTodo} check={checkTodo} />
-      {/* remove라는 이름으러 넘김 */}
       <TodoInput addTodo={addTodo} />
-      {/* 자식에게 함수 보냄 */}
     </div>
   );
 
-  //로딩 중일 때 보여줄 컴포넌트
+  // 로딩 중일 때 보여줄 컴포넌트
   const loadingPage = (
     <div className="loading">
       <Spinner color="danger">loading...</Spinner>
-      {/* Spinner 뱅글뱅글 도는 feat.리액트 제공 */}
     </div>
   );
 

@@ -74,8 +74,9 @@ const Login = () => {
 
     //홈으로 리다이렉트
     redirection('/');
+  };
 
-    /* 방법 1
+  /* 방법 1
     fetch(REQUEST_URL, {
       method: 'POST',
       headers: {
@@ -97,10 +98,9 @@ const Login = () => {
       });
       */
 
-    //이메일과 비밀번호를 직접 지목해서 얻어보세요.(getElementById로 직접 지목)
-    //요청 방식 : POST / email, password라는 이름으로 JSON 전송하기
-    //응답 데이터를 console.log로 확인하세요.
-  };
+  //이메일과 비밀번호를 직접 지목해서 얻어보세요.(getElementById로 직접 지목)
+  //요청 방식 : POST / email, password라는 이름으로 JSON 전송하기
+  //응답 데이터를 console.log로 확인하세요.
 
   const loginHandler = (e) => {
     e.preventDefault();

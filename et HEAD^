@@ -1,0 +1,71 @@
+[33mcommit 80091f277b75f5899d7e326b4c9f95f832d700d5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: jg <iamjgl@naver.com>
+Date:   Tue May 28 16:58:20 2024 +0900
+
+    커밋1
+
+[33mcommit 60df281b417f6c3fe79b2631ce49d7d422d8c90f[m
+Author: jg <iamjgl@naver.com>
+Date:   Tue May 28 15:57:31 2024 +0900
+
+    파이썬
+
+[33mcommit 612e456781f6037f2ca5f3ce9bb9451e61117987[m
+Author: jg <iamjgl@naver.com>
+Date:   Tue May 28 15:44:21 2024 +0900
+
+    pyhton study
+
+[33mcommit ef44c94170d405d80f5c8d8f95c1691589324e71[m
+Author: jg <iamjgl@naver.com>
+Date:   Tue May 28 15:25:57 2024 +0900
+
+    rrr
+
+[33mcommit cd8cdd0f4d159ecc51e1309512cbf679ae05f729[m
+Author: jg <iamjgl@naver.com>
+Date:   Fri May 24 18:08:54 2024 +0900
+
+    리프레쉬 토큰 추가
+
+[33mcommit c4bff4db1f16566e6c318ad1b72cd74b11eb4526[m
+Author: jg <iamjgl@naver.com>
+Date:   Thu May 23 21:34:16 2024 +0900
+
+    로그인 기능 추가
+
+[33mcommit 66cbb1ad0e393db005f7ea9526b8c518daaff284[m
+Author: jg <iamjgl@naver.com>
+Date:   Wed May 22 19:19:44 2024 +0900
+
+    등급 업데이트
+
+[33mcommit f6d3ee141d19852c2f91cfaf3ed6d70c8cf56209[m
+Author: jg <iamjgl@naver.com>
+Date:   Tue May 21 21:09:59 2024 +0900
+
+    로그인 기능 추가
+
+[33mcommit 4dce1cf1ca999a7f90d63df18bd200381b9281ab[m
+Author: jg <iamjgl@naver.com>
+Date:   Fri May 17 21:19:01 2024 +0900
+
+    db 연동
+
+[33mcommit b7ce9f11eead455fa15db71fd9ca6c091088ab0b[m
+Author: jg <iamjgl@naver.com>
+Date:   Thu May 9 21:40:32 2024 +0900
+
+    리액트 todo list 구현
+
+[33mcommit 6484b30b1a0ff16e89cebc1dfd270ff631348ad1[m
+Author: jg <iamjgl@naver.com>
+Date:   Thu May 9 11:56:44 2024 +0900
+
+    리액트 세팅
+
+[33mcommit 2ee96a29a2ae50ac648e8b2d83846d503a438cbb[m
+Author: jg <iamjgl@naver.com>
+Date:   Thu May 9 11:22:57 2024 +0900
+
+    Initialize project using Create React App
